@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sondage Coûts de la Vie 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        select,
+        input[type="number"],
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+            font-family: inherit;
+        }
+
+        select:focus,
+        input[type="number"]:focus,
+        input[type="text"]:focus,
+        input[type="email"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .expenses-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .radio-option:hover {
+            background-color: #f5f5f5;
+            border-color: #667eea;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin-right: 12px;
+            accent-color: #667eea;
+        }
+
+        .radio-option label {
+            margin: 0;
+            font-weight: 500;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .radio-option input[type="radio"]:checked + label {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-reset {
+            background: #f0f0f0;
+            color: #333;
+            border: 2px solid #e0e0e0;
+        }
+
+        .btn-reset:hover {
+            background: #e0e0e0;
+        }
+
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error-message {
+            display: none;
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            border: 1px solid #f5c6cb;
+        }
+
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .data-display {
+            display: none;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .data-display h3 {
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .data-item {
+            padding: 8px 0;
+            color: #555;
+            font-size: 14px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .data-item:last-child {
+            border-bottom: none;
+        }
+
+        .data-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .setup-notice {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            color: #004085;
+            font-size: 13px;
+        }
+
+        .setup-notice strong {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            button {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Sondage Coûts de la Vie 2026</h1>
+            <p>Maroc - Partagez vos informations</p>
+        </div>
+
+        <div class="setup-notice" id="setupNotice">
+            <strong>⚠️ Configuration requise</strong>
+            Veuillez coller votre URL Google Apps Script dans la console du navigateur (F12) :
+            <code style="display: block; margin-top: 8px; padding: 8px; background: white; border-radius: 4px; overflow-wrap: break-word;">
+                localStorage.setItem('scriptUrl', 'VOTRE_URL_GOOGLE_APPS_SCRIPT')
+            </code>
+        </div>
+
+        <form id="surveyForm">
+            <!-- Ville -->
+            <div class="form-group">
+                <label for="city">Ville de Résidence *</label>
+                <select id="city" required>
+                    <option value="">-- Sélectionner une ville --</option>
+                    <option value="AGADIR">AGADIR</option>
+                    <option value="AL HOCEIMA">AL HOCEIMA</option>
+                    <option value="BENGUERIR">BENGUERIR</option>
+                    <option value="BENI MELLAL">BENI MELLAL</option>
+                    <option value="CASABLANCA">CASABLANCA</option>
+                    <option value="DAKHLA">DAKHLA</option>
+                    <option value="EL JADIDA">EL JADIDA</option>
+                    <option value="FES">FES</option>
+                    <option value="KENITRA">KENITRA</option>
+                    <option value="KHOURIGBA">KHOURIGBA</option>
+                    <option value="LAAYOUNE">LAAYOUNE</option>
+                    <option value="MARRAKECH">MARRAKECH</option>
+                    <option value="OUJDA">OUJDA</option>
+                    <option value="RABAT">RABAT</option>
+                    <option value="SAFI">SAFI</option>
+                    <option value="SALE">SALE</option>
+                    <option value="SETTAT">SETTAT</option>
+                    <option value="TANGER">TANGER</option>
+                    <option value="TEMARA">TEMARA</option>
+                    <option value="TETOUAN">TETOUAN</option>
+                </select>
+            </div>
+
+            <!-- Montant Appartement -->
+            <div class="form-group">
+                <label for="apartment">Montant de l'Appartement (DHS) *</label>
+                <input type="number" id="apartment" placeholder="Ex: 3500" min="0" step="100" required>
+            </div>
+
+            <!-- Montant Chambre -->
+            <div class="form-group">
+                <label for="room">Montant de la Chambre (DHS) *</label>
+                <input type="number" id="room" placeholder="Ex: 1200" min="0" step="100" required>
+            </div>
+
+            <!-- Dépenses Mensuelles -->
+            <div class="form-group">
+                <label>Dépenses Mensuelles (hors loyer) *</label>
+                <div class="expenses-group">
+                    <div class="radio-option">
+                        <input type="radio" id="expense1" name="expenses" value="< 200 DHS" required>
+                        <label for="expense1">Inférieur à 200 DHS</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="expense2" name="expenses" value="200 - 300 DHS">
+                        <label for="expense2">Entre 200 et 300 DHS</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="expense3" name="expenses" value="300 - 400 DHS">
+                        <label for="expense3">Entre 300 et 400 DHS</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="expense4" name="expenses" value="500 - 600 DHS">
+                        <label for="expense4">Entre 500 et 600 DHS</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="expense5" name="expenses" value="600 - 700 DHS">
+                        <label for="expense5">Entre 600 et 700 DHS</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="expense6" name="expenses" value="700 - 800 DHS">
+                        <label for="expense6">Entre 700 et 800 DHS</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="expense7" name="expenses" value="800 - 900 DHS">
+                        <label for="expense7">Entre 800 et 900 DHS</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="expense8" name="expenses" value="900 - 1000 DHS">
+                        <label for="expense8">Entre 900 et 1000 DHS</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="expense9" name="expenses" value="> 1000 DHS">
+                        <label for="expense9">Supérieur à 1000 DHS</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages -->
+            <div class="error-message" id="errorMessage"></div>
+            <div class="success-message" id="successMessage">✓ Vos données ont été envoyées avec succès !</div>
+            <div class="loading-spinner" id="loadingSpinner">
+                <div class="spinner"></div>
+                <p style="margin-top: 10px; color: #667eea;">Envoi en cours...</p>
+            </div>
+
+            <!-- Données affichées -->
+            <div class="data-display" id="dataDisplay">
+                <h3>Résumé de votre réponse</h3>
+                <div class="data-item">
+                    <span class="data-label">Ville :</span> <span id="displayCity"></span>
+                </div>
+                <div class="data-item">
+                    <span class="data-label">Appartement :</span> <span id="displayApartment"></span> DHS
+                </div>
+                <div class="data-item">
+                    <span class="data-label">Chambre :</span> <span id="displayRoom"></span> DHS
+                </div>
+                <div class="data-item">
+                    <span class="data-label">Dépenses mensuelles :</span> <span id="displayExpenses"></span>
+                </div>
+                <div class="data-item">
+                    <span class="data-label">Coût total mensuel :</span> <span id="displayTotal"></span> DHS
+                </div>
+            </div>
+
+            <!-- Boutons -->
+            <div class="button-group">
+                <button type="submit" class="btn-submit" id="submitBtn">Soumettre</button>
+                <button type="reset" class="btn-reset">Réinitialiser</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('surveyForm');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+        const dataDisplay = document.getElementById('dataDisplay');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const setupNotice = document.getElementById('setupNotice');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Vérifier si l'URL est configurée
+        function checkScriptUrl() {
+            const scriptUrl = localStorage.getItem('scriptUrl');
+            if (scriptUrl) {
+                setupNotice.style.display = 'none';
+            }
+        }
+
+        checkScriptUrl();
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Réinitialiser les messages
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            dataDisplay.style.display = 'none';
+            loadingSpinner.style.display = 'block';
+
+            // Récupérer les données
+            const city = document.getElementById('city').value;
+            const apartment = parseFloat(document.getElementById('apartment').value);
+            const room = parseFloat(document.getElementById('room').value);
+            const expenses = document.querySelector('input[name="expenses"]:checked').value;
+
+            // Validation
+            if (!city || isNaN(apartment) || isNaN(room) || apartment < 0 || room < 0) {
+                errorMessage.textContent = '⚠️ Veuillez remplir tous les champs obligatoires correctement.';
+                errorMessage.style.display = 'block';
+                loadingSpinner.style.display = 'none';
+                return;
+            }
+
+            // Vérifier l'URL Google Apps Script
+            const scriptUrl = localStorage.getItem('scriptUrl');
+            if (!scriptUrl) {
+                errorMessage.textContent = '❌ URL Google Apps Script non configurée. Consultez les instructions en haut.';
+                errorMessage.style.display = 'block';
+                loadingSpinner.style.display = 'none';
+                return;
+            }
+
+            // Préparer les données
+            const timestamp = new Date().toLocaleString('fr-FR');
+            const total = apartment + room;
+            
+            const payload = {
+                timestamp: timestamp,
+                city: city,
+                apartment: apartment,
+                room: room,
+                expenses: expenses,
+                total: total
+            };
+
+            try {
+                // Envoyer les données à Google Apps Script
+                const urlWithParams = scriptUrl + '?city=' + encodeURIComponent(city) + 
+                    '&apartment=' + apartment + 
+                    '&room=' + room + 
+                    '&expenses=' + encodeURIComponent(expenses);
+                
+                // Envoyer les données (mode no-cors = pas de vérification de réponse)
+                await fetch(urlWithParams, {
+                    method: 'POST',
+                    mode: 'no-cors'
+                });
+                
+                // Les données sont envoyées, pas besoin de vérifier la réponse
+
+                // Afficher les données
+                document.getElementById('displayCity').textContent = city;
+                document.getElementById('displayApartment').textContent = apartment.toLocaleString('fr-FR');
+                document.getElementById('displayRoom').textContent = room.toLocaleString('fr-FR');
+                document.getElementById('displayExpenses').textContent = expenses;
+                document.getElementById('displayTotal').textContent = total.toLocaleString('fr-FR');
+
+                // Afficher le succès
+                loadingSpinner.style.display = 'none';
+                successMessage.style.display = 'block';
+                dataDisplay.style.display = 'block';
+
+                // Réinitialiser le formulaire après 2 secondes
+                setTimeout(() => {
+                    form.reset();
+                    successMessage.style.display = 'none';
+                    dataDisplay.style.display = 'none';
+                }, 3000);
+
+                console.log('✓ Données envoyées:', payload);
+
+            } catch (error) {
+                loadingSpinner.style.display = 'none';
+                errorMessage.textContent = '❌ Erreur lors de l\'envoi. Vérifiez votre URL Google Apps Script.';
+                errorMessage.style.display = 'block';
+                console.error('Erreur:', error);
+            }
+        });
+
+        // Désactiver le bouton si pas d'URL
+        window.addEventListener('load', function() {
+            const scriptUrl = localStorage.getItem('scriptUrl');
+            if (!scriptUrl) {
+                submitBtn.disabled = true;
+                submitBtn.style.opacity = '0.5';
+            }
+        });
+    </script>
+</body>
+</html>
