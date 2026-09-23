@@ -46,6 +46,45 @@
             font-size: 14px;
         }
 
+        .description-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .description-box h2 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .description-box p {
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .description-box ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .description-box li {
+            color: #555;
+            font-size: 14px;
+            margin: 8px 0;
+            padding-left: 25px;
+        }
+
+        .description-box strong {
+            color: #667eea;
+            font-weight: 600;
+        }
+
         .form-group {
             margin-bottom: 25px;
         }
@@ -274,12 +313,15 @@
             <p>Maroc - Partagez vos informations</p>
         </div>
 
-        <div class="setup-notice" id="setupNotice">
-            <strong>⚠️ Configuration requise</strong>
-            Veuillez coller votre URL Google Apps Script dans la console du navigateur (F12) :
-            <code style="display: block; margin-top: 8px; padding: 8px; background: white; border-radius: 4px; overflow-wrap: break-word;">
-                localStorage.setItem('scriptUrl', 'VOTRE_URL_GOOGLE_APPS_SCRIPT')
-            </code>
+        <div class="description-box">
+            <h2>À propos de ce sondage</h2>
+            <p>Cette étude est une étude complémentaire à celle qui a été faite en 2025 pour chiffrer réellement le coût de vie des étudiants Togolais au Maroc .</p>
+            <ul>
+                <li>✅ Complètement <strong>anonyme</strong> - aucune donnée personnelle</li>
+                <li>✅ Rapide - moins de <strong>1 minute</strong> pour remplir</li>
+                <li>✅ 20 villes marocaines incluses</li>
+                <li>✅ Vos données seront utilisées à titre statistique</li>
+            </ul>
         </div>
 
         <form id="surveyForm">
@@ -340,28 +382,32 @@
                         <label for="expense3">Entre 300 et 400 DHS</label>
                     </div>
                     <div class="radio-option">
-                        <input type="radio" id="expense4" name="expenses" value="500 - 600 DHS">
-                        <label for="expense4">Entre 500 et 600 DHS</label>
+                        <input type="radio" id="expense4" name="expenses" value="400 - 500 DHS">
+                        <label for="expense4">Entre 400 et 500 DHS</label>
                     </div>
                     <div class="radio-option">
-                        <input type="radio" id="expense5" name="expenses" value="600 - 700 DHS">
-                        <label for="expense5">Entre 600 et 700 DHS</label>
+                        <input type="radio" id="expense5" name="expenses" value="500 - 600 DHS">
+                        <label for="expense5">Entre 500 et 600 DHS</label>
                     </div>
                     <div class="radio-option">
-                        <input type="radio" id="expense6" name="expenses" value="700 - 800 DHS">
-                        <label for="expense6">Entre 700 et 800 DHS</label>
+                        <input type="radio" id="expense6" name="expenses" value="600 - 700 DHS">
+                        <label for="expense6">Entre 600 et 700 DHS</label>
                     </div>
                     <div class="radio-option">
-                        <input type="radio" id="expense7" name="expenses" value="800 - 900 DHS">
-                        <label for="expense7">Entre 800 et 900 DHS</label>
+                        <input type="radio" id="expense7" name="expenses" value="700 - 800 DHS">
+                        <label for="expense7">Entre 700 et 800 DHS</label>
                     </div>
                     <div class="radio-option">
-                        <input type="radio" id="expense8" name="expenses" value="900 - 1000 DHS">
-                        <label for="expense8">Entre 900 et 1000 DHS</label>
+                        <input type="radio" id="expense8" name="expenses" value="800 - 900 DHS">
+                        <label for="expense8">Entre 800 et 900 DHS</label>
                     </div>
                     <div class="radio-option">
-                        <input type="radio" id="expense9" name="expenses" value="> 1000 DHS">
-                        <label for="expense9">Supérieur à 1000 DHS</label>
+                        <input type="radio" id="expense9" name="expenses" value="900 - 1000 DHS">
+                        <label for="expense9">Entre 900 et 1000 DHS</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="expense10" name="expenses" value="> 1000 DHS">
+                        <label for="expense10">Supérieur à 1000 DHS</label>
                     </div>
                 </div>
             </div>
@@ -404,18 +450,12 @@
 
     <script>
         const form = document.getElementById('surveyForm');
-        const errorMessage = document.getElementById('errorMessage');
-        const successMessage = document.getElementById('successMessage');
         const dataDisplay = document.getElementById('dataDisplay');
         const loadingSpinner = document.getElementById('loadingSpinner');
-        const setupNotice = document.getElementById('setupNotice');
         const submitBtn = document.getElementById('submitBtn');
 
         // URL Google Apps Script intégrée directement
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbziPbdJYKbkiU_yRq5QJUvfOKP_UklxJikfnicjEy_8HNNC77utFQCrT3Z4XC_0YxzhJw/exec';
-        
-        // Masquer la notification de configuration
-        setupNotice.style.display = 'none';
 
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
