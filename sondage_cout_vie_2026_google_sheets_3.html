@@ -411,15 +411,11 @@
         const setupNotice = document.getElementById('setupNotice');
         const submitBtn = document.getElementById('submitBtn');
 
-        // Vérifier si l'URL est configurée
-        function checkScriptUrl() {
-            const scriptUrl = localStorage.getItem('scriptUrl');
-            if (scriptUrl) {
-                setupNotice.style.display = 'none';
-            }
-        }
-
-        checkScriptUrl();
+        // URL Google Apps Script intégrée directement
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbziPbdJYKbkiU_yRq5QJUvfOKP_UklxJikfnicjEy_8HNNC77utFQCrT3Z4XC_0YxzhJw/exec';
+        
+        // Masquer la notification de configuration
+        setupNotice.style.display = 'none';
 
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -444,14 +440,7 @@
                 return;
             }
 
-            // Vérifier l'URL Google Apps Script
-            const scriptUrl = localStorage.getItem('scriptUrl');
-            if (!scriptUrl) {
-                errorMessage.textContent = '❌ URL Google Apps Script non configurée. Consultez les instructions en haut.';
-                errorMessage.style.display = 'block';
-                loadingSpinner.style.display = 'none';
-                return;
-            }
+            // L'URL est déjà intégrée dans le code
 
             // Préparer les données
             const timestamp = new Date().toLocaleString('fr-FR');
@@ -510,14 +499,8 @@
             }
         });
 
-        // Désactiver le bouton si pas d'URL
-        window.addEventListener('load', function() {
-            const scriptUrl = localStorage.getItem('scriptUrl');
-            if (!scriptUrl) {
-                submitBtn.disabled = true;
-                submitBtn.style.opacity = '0.5';
-            }
-        });
+        // Le bouton est toujours activé car l'URL est intégrée
+        submitBtn.disabled = false;
     </script>
 </body>
 </html>
