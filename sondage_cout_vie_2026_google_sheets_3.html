@@ -353,9 +353,15 @@
                 <input type="number" id="apartment" placeholder="Ex: 3500" min="0" step="100" required>
             </div>
 
-            <!-- Montant Chambre -->
+            <!-- Nombre de personnes dans la chambre -->
             <div class="form-group">
-                <label for="room">Montant de la Chambre (DHS) *</label>
+                <label for="roommates">Nombre de personnes dans la chambre *</label>
+                <input type="number" id="roommates" placeholder="Ex: 2" min="1" step="1" required>
+            </div>
+
+            <!-- Votre part de loyer -->
+            <div class="form-group">
+                <label for="room">Prix de la chambre (DHS) *</label>
                 <input type="number" id="room" placeholder="Ex: 1200" min="0" step="100" required>
             </div>
 
@@ -424,7 +430,10 @@
                     <span class="data-label">Appartement :</span> <span id="displayApartment"></span> DHS
                 </div>
                 <div class="data-item">
-                    <span class="data-label">Chambre :</span> <span id="displayRoom"></span> DHS
+                    <span class="data-label">Nombre de personnes dans la chambre :</span> <span id="displayRoommates"></span>
+                </div>
+                <div class="data-item">
+                    <span class="data-label">Prix de la chambre :</span> <span id="displayRoom"></span> DHS
                 </div>
                 <div class="data-item">
                     <span class="data-label">Dépenses mensuelles :</span> <span id="displayExpenses"></span>
@@ -447,6 +456,8 @@
         const dataDisplay = document.getElementById('dataDisplay');
         const loadingSpinner = document.getElementById('loadingSpinner');
         const submitBtn = document.getElementById('submitBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
 
         // URL Google Apps Script intégrée directement
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbziPbdJYKbkiU_yRq5QJUvfOKP_UklxJikfnicjEy_8HNNC77utFQCrT3Z4XC_0YxzhJw/exec';
@@ -463,11 +474,13 @@
             // Récupérer les données
             const city = document.getElementById('city').value;
             const apartment = parseFloat(document.getElementById('apartment').value);
+            const roommates = parseInt(document.getElementById('roommates').value);
             const room = parseFloat(document.getElementById('room').value);
             const expenses = document.querySelector('input[name="expenses"]:checked').value;
 
             // Validation
-            if (!city || isNaN(apartment) || isNaN(room) || apartment < 0 || room < 0) {
+            if (!city || isNaN(apartment) || isNaN(roommates) || isNaN(room) || 
+                apartment < 0 || roommates < 1 || room < 0) {
                 errorMessage.textContent = '⚠️ Veuillez remplir tous les champs obligatoires correctement.';
                 errorMessage.style.display = 'block';
                 loadingSpinner.style.display = 'none';
@@ -484,6 +497,7 @@
                 timestamp: timestamp,
                 city: city,
                 apartment: apartment,
+                roommates: roommates,
                 room: room,
                 expenses: expenses,
                 total: total
@@ -493,6 +507,7 @@
                 // Envoyer les données à Google Apps Script
                 const urlWithParams = scriptUrl + '?city=' + encodeURIComponent(city) + 
                     '&apartment=' + apartment + 
+                    '&roommates=' + roommates +
                     '&room=' + room + 
                     '&expenses=' + encodeURIComponent(expenses);
                 
@@ -507,6 +522,7 @@
                 // Afficher les données
                 document.getElementById('displayCity').textContent = city;
                 document.getElementById('displayApartment').textContent = apartment.toLocaleString('fr-FR');
+                document.getElementById('displayRoommates').textContent = roommates;
                 document.getElementById('displayRoom').textContent = room.toLocaleString('fr-FR');
                 document.getElementById('displayExpenses').textContent = expenses;
                 document.getElementById('displayTotal').textContent = total.toLocaleString('fr-FR');
