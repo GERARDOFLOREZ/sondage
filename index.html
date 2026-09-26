@@ -318,240 +318,32 @@
             <p>Cette étude est une étude complémentaire à celle qui a été faite en 2025 pour chiffrer réellement le coût de vie des étudiants Togolais au Maroc .</p>
         </div>
 
-        <form id="surveyForm">
-            <!-- Ville -->
-            <div class="form-group">
-                <label for="city">Ville de Résidence *</label>
-                <select id="city" required>
-                    <option value="">-- Sélectionner une ville --</option>
-                    <option value="AGADIR">AGADIR</option>
-                    <option value="AL HOCEIMA">AL HOCEIMA</option>
-                    <option value="BENGUERIR">BENGUERIR</option>
-                    <option value="BENI MELLAL">BENI MELLAL</option>
-                    <option value="CASABLANCA">CASABLANCA</option>
-                    <option value="DAKHLA">DAKHLA</option>
-                    <option value="EL JADIDA">EL JADIDA</option>
-                    <option value="ERRACHIDIA">ERRACHIDIA</option>
-                    <option value="FES">FES</option>
-                    <option value="KENITRA">KENITRA</option>
-                    <option value="KHOURIGBA">KHOURIGBA</option>
-                    <option value="LAAYOUNE">LAAYOUNE</option>
-                    <option value="MARRAKECH">MARRAKECH</option>
-                    <option value="MEKNES">MEKNES</option>    
-                    <option value="OUJDA">OUJDA</option>
-                    <option value="RABAT">RABAT</option>
-                    <option value="SAFI">SAFI</option>
-                    <option value="SALE">SALE</option>
-                    <option value="SETTAT">SETTAT</option>
-                    <option value="TANGER">TANGER</option>
-                    <option value="TEMARA">TEMARA</option>
-                    <option value="TETOUAN">TETOUAN</option>
-                </select>
-            </div>
-
-            <!-- Montant Appartement -->
-            <div class="form-group">
-                <label for="apartment">Montant de l'Appartement (DHS) *</label>
-                <input type="number" id="apartment" placeholder="Ex: 3567" min="0" step="1" required>
-            </div>
-
-            <!-- Nombre de personnes dans la chambre -->
-            <div class="form-group">
-                <label for="roommates">Nombre de personnes dans la chambre *</label>
-               <input type="number" id="roommates" placeholder="Ex: 2" min="1" step="1" required>
-            </div>
-
-            <!-- Prix de la chambre -->
-            <div class="form-group">
-                <label for="room">Prix de la chambre (DHS) *</label>
-               <input type="number" id="room" placeholder="Ex: 789" min="0" step="1" required>
-            </div>
-
-            <!-- Dépenses Mensuelles -->
-            <div class="form-group">
-                <label>Dépenses Mensuelles (hors loyer) *</label>
-                <div class="expenses-group">
-                    <div class="radio-option">
-                        <input type="radio" id="expense1" name="expenses" value="< 200 DHS" required>
-                        <label for="expense1">Inférieur à 200 DHS</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="expense2" name="expenses" value="200 - 300 DHS">
-                        <label for="expense2">Entre 200 et 300 DHS</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="expense3" name="expenses" value="300 - 400 DHS">
-                        <label for="expense3">Entre 300 et 400 DHS</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="expense4" name="expenses" value="400 - 500 DHS">
-                        <label for="expense4">Entre 400 et 500 DHS</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="expense5" name="expenses" value="500 - 600 DHS">
-                        <label for="expense5">Entre 500 et 600 DHS</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="expense6" name="expenses" value="600 - 700 DHS">
-                        <label for="expense6">Entre 600 et 700 DHS</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="expense7" name="expenses" value="700 - 800 DHS">
-                        <label for="expense7">Entre 700 et 800 DHS</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="expense8" name="expenses" value="800 - 900 DHS">
-                        <label for="expense8">Entre 800 et 900 DHS</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="expense9" name="expenses" value="900 - 1000 DHS">
-                        <label for="expense9">Entre 900 et 1000 DHS</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="expense10" name="expenses" value="> 1000 DHS">
-                        <label for="expense10">Supérieur à 1000 DHS</label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Messages -->
-            <div class="error-message" id="errorMessage"></div>
-            <div class="success-message" id="successMessage">✓ Vos données ont été envoyées avec succès !</div>
-            <div class="loading-spinner" id="loadingSpinner">
-                <div class="spinner"></div>
-                <p style="margin-top: 10px; color: #667eea;">Envoi en cours...</p>
-            </div>
-
-            <!-- Données affichées -->
-            <div class="data-display" id="dataDisplay">
-                <h3>Résumé de votre réponse</h3>
-                <div class="data-item">
-                    <span class="data-label">Ville :</span> <span id="displayCity"></span>
-                </div>
-                <div class="data-item">
-                    <span class="data-label">Appartement :</span> <span id="displayApartment"></span> DHS
-                </div>
-                <div class="data-item">
-                    <span class="data-label">Nombre de personnes dans la chambre :</span> <span id="displayRoommates"></span>
-                </div>
-                <div class="data-item">
-                    <span class="data-label">Prix de la chambre :</span> <span id="displayRoom"></span> DHS
-                </div>
-                <div class="data-item">
-                    <span class="data-label">Dépenses mensuelles :</span> <span id="displayExpenses"></span>
-                </div>
-                <div class="data-item">
-                    <span class="data-label">Coût total mensuel :</span> <span id="displayTotal"></span> DHS
-                </div>
-            </div>
-
-            <!-- Boutons -->
-            <div class="button-group">
-                <button type="submit" class="btn-submit" id="submitBtn">Soumettre</button>
-                <button type="reset" class="btn-reset">Réinitialiser</button>
-            </div>
-        </form>
+        <div class="closed-message" style="
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            padding: 28px 24px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 10px;
+        ">
+            <div style="font-size: 42px; margin-bottom: 15px;">🔒</div>
+            <h2 style="
+                color: #333;
+                font-size: 24px;
+                margin-bottom: 15px;
+            ">Sondage clôturé</h2>
+            <p style="
+                color: #555;
+                font-size: 15px;
+                line-height: 1.7;
+                margin: 0;
+            ">
+                Merci à toutes les personnes ayant participé à cette enquête.<br>
+                La collecte des réponses est désormais terminée.
+            </p>
+        </div>
     </div>
 
-    <script>
-        const form = document.getElementById('surveyForm');
-        const dataDisplay = document.getElementById('dataDisplay');
-        const loadingSpinner = document.getElementById('loadingSpinner');
-        const submitBtn = document.getElementById('submitBtn');
-        const errorMessage = document.getElementById('errorMessage');
-        const successMessage = document.getElementById('successMessage');
 
-        // URL Google Apps Script intégrée directement
-        const scriptUrl = 'https://script.google.com/macros/s/AKfycbyWYc4HyV-dK2D2ThWkUR1-s4Wl1t6jKyo5Rj6JIefKgluWkiEIvmpB2uwpnco5XkV8tA/exec'
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            // Réinitialiser les messages
-            errorMessage.style.display = 'none';
-            successMessage.style.display = 'none';
-            dataDisplay.style.display = 'none';
-            loadingSpinner.style.display = 'block';
-
-            // Récupérer les données
-            const city = document.getElementById('city').value;
-            const apartment = parseFloat(document.getElementById('apartment').value);
-            const roommates = parseInt(document.getElementById('roommates').value);
-            const room = parseFloat(document.getElementById('room').value);
-            const expenses = document.querySelector('input[name="expenses"]:checked').value;
-
-            // Validation
-            if (!city || isNaN(apartment) || isNaN(roommates) || isNaN(room) || 
-                apartment < 0 || roommates < 1 || room < 0) {
-                errorMessage.textContent = '⚠️ Veuillez remplir tous les champs obligatoires correctement.';
-                errorMessage.style.display = 'block';
-                loadingSpinner.style.display = 'none';
-                return;
-            }
-
-            // L'URL est déjà intégrée dans le code
-
-            // Préparer les données
-            const timestamp = new Date().toLocaleString('fr-FR');
-            const total = apartment + room;
-            
-            const payload = {
-                timestamp: timestamp,
-                city: city,
-                apartment: apartment,
-                roommates: roommates,
-                room: room,
-                expenses: expenses,
-                total: total
-            };
-
-            try {
-                // Envoyer les données à Google Apps Script
-                const urlWithParams = scriptUrl + '?city=' + encodeURIComponent(city) + 
-                    '&apartment=' + apartment + 
-                    '&roommates=' + roommates +
-                    '&room=' + room + 
-                    '&expenses=' + encodeURIComponent(expenses);
-                
-                // Envoyer les données (mode no-cors = pas de vérification de réponse)
-                await fetch(urlWithParams, {
-                    method: 'POST',
-                    mode: 'no-cors'
-                });
-                
-                // Les données sont envoyées, pas besoin de vérifier la réponse
-
-                // Afficher les données
-                document.getElementById('displayCity').textContent = city;
-                document.getElementById('displayApartment').textContent = apartment.toLocaleString('fr-FR');
-                document.getElementById('displayRoommates').textContent = roommates;
-                document.getElementById('displayRoom').textContent = room.toLocaleString('fr-FR');
-                document.getElementById('displayExpenses').textContent = expenses;
-                document.getElementById('displayTotal').textContent = total.toLocaleString('fr-FR');
-
-                // Afficher le succès
-                loadingSpinner.style.display = 'none';
-                successMessage.style.display = 'block';
-                dataDisplay.style.display = 'block';
-
-                // Réinitialiser le formulaire après 2 secondes
-                setTimeout(() => {
-                    form.reset();
-                    successMessage.style.display = 'none';
-                    dataDisplay.style.display = 'none';
-                }, 3000);
-
-                console.log('✓ Données envoyées:', payload);
-
-            } catch (error) {
-                loadingSpinner.style.display = 'none';
-                errorMessage.textContent = '❌ Erreur lors de l\'envoi. Vérifiez votre URL Google Apps Script.';
-                errorMessage.style.display = 'block';
-                console.error('Erreur:', error);
-            }
-        });
-
-        // Le bouton est toujours activé car l'URL est intégrée
-        submitBtn.disabled = false;
-    </script>
 </body>
 </html>
